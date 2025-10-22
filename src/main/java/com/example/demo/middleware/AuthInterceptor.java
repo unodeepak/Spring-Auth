@@ -15,7 +15,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            // response.getWriter().write("{\"error"\: \"Unauthorize access\"}");
+            response.getWriter().write("{\"error\": \"Unauthorized access\", \"statusCode\": \"401\"}");
 
             return false;
         }

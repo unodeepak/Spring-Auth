@@ -12,28 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.JwtUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/create-user")
     public Map<String, Object> createUser(@RequestBody User user) {
         Map<String, Object> resp = new HashMap<>();
         userRepository.save(user);
+        String token = jwtUtils.generateToken(user.getFirst_name());
 
         resp.put("msg", "New User Created");
-        // resp.put("data", "");
-        resp.put("statusCode", 201);
+        resp.put("statusCode", 201);        
+        resp.put("token", token);
 
         return resp;
-
     }
 
     @GetMapping("/get-users")
